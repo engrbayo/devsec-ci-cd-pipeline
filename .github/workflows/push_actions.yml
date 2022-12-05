@@ -1,0 +1,97 @@
+name: version upgrade
+on:
+  pull_request: 
+    types: [ labeled , closed , opened ]
+
+env:
+  TERRAFORM_VERSION: 1.2.9  # 1.1.5 , 1.2.9
+  TERRAGRUNT_VERSION: 0.38.10  # 0.36.2 , 0.38.10
+  TERRAFORM_WORKING_DIR: './applied/accounts/testing/environment/'
+  #TERRAFORM_WORKING_DIR_PROD: './applied/accounts/production/environment/'
+  TERRAFORM_LOCK_HCL_PATH: "./applied/accounts/testing/environment/.terraform.lock.hcl"
+
+permissions:
+  contents: write    # write permissions are needed in order to commit changes back to the branches
+  issues: write         # write permissions are needed in order to create comments
+  pull-requests: write  # write permissions are needed in order to create comments
+
+
+concurrency: test-environment    # This will ensure only a single workflow of merge to master is run at a time
+
+jobs:
+  plan:
+    name: "version upgrade"
+    #if: github.event_name == 'pull_request' && github.event.label.name == 'version-upgrade'
+    if: github.base_ref == 'main' && github.event.label.name == 'version-upgrade'
+    #if: github.event.action == 'labeled'
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ${{ env.TERRAFORM_WORKING_DIR }}
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+           # This will checkout the branch the PR is coming from in the head repo to avoid checkoing out repo in a detached state
+           ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: version-upgrade-pr-comment
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+             * This pr changes is for version-upgrade. please approve with care
+             * The PR include changes to Terraform version,Terragrunt version and AWS provider version.
+             * If you are unsure what to look for in this PR, please start a conversation to address your area of concern.
+
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          allow-repeats: false 
+  
+  labeled:
+    name: "Version upgrade apply"
+    if: github.base_ref == 'main' && github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-upgrade')
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ${{ env.TERRAFORM_WORKING_DIR }}
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1.3.2
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: true
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: ${{ env.TERRAGRUNT_VERSION }}
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.6.1
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terragrunt Init
+        id: init
+        run: terragrunt run-all init -upgrade -no-color --terragrunt-non-interactive
+
+      - name: commit lock file
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: ${{ env.TERRAFORM_LOCK_HCL_PATH }}
+          message: "fix:Persisting lock file"
+          push: true
+
+      - name: Terragrunt Apply
+        id: apply
+        run: terragrunt run-all apply -no-color --terragrunt-non-interactive
+        continue-on-error: true
+
+    
