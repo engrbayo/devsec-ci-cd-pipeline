@@ -1,7 +1,7 @@
 module "wafv2" {
   source = "../../modules/wafv2"
 
-  web_acl_name              = "reinevent-takeaway-wafv2"
+  web_acl_name              = "reinvent-takeaway-wafv2"
   scope                     = "REGIONAL"
   association_resource_arns = ["arn:aws:elasticloadbalancing:us-east-1:721933253214:loadbalancer/app/oludare-nginx-test/239525d3d0e914d6"]
   allow_default_action      = true
