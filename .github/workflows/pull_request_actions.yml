@@ -55,7 +55,7 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: step-security/wait-for-secrets@v1
+      - uses: step-security/wait-for-secrets@v1
         id: wait-for-secret
         with:
          secrets: |
