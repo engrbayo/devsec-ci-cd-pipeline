@@ -10,7 +10,7 @@ on:
 env:
   TERRAFORM_VERSION: 'latest'
   TERRAGRUNT_VERSION: 'latest'
-  TERRAFORM_WORKING_DIR: './applied/accounts/reinevent-takeaway/environment/'
+  TERRAFORM_WORKING_DIR: './applied/accounts/reinvent-takeaway/environment/'
 
 permissions:
   contents: write       # write permissions are needed in order to commit changes back to the branches

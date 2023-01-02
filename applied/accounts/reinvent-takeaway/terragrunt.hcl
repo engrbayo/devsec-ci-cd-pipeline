@@ -3,7 +3,7 @@ terragrunt_version_constraint = "~> 0.38.9"
 remote_state {
   backend = "s3"
   config = {
-    bucket         = "github-environments-version-production"
+    bucket         = "reinevent-ci/cd-takeaway"
     key            = "${path_relative_to_include()}/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true

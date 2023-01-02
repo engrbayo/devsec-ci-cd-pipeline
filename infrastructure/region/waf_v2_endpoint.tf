@@ -1,7 +1,7 @@
 module "wafv2" {
   source = "../../modules/wafv2"
 
-  web_acl_name              = "nginx-wafv2"
+  web_acl_name              = "reinevent-takeaway-wafv2"
   scope                     = "REGIONAL"
   association_resource_arns = []
   allow_default_action      = true
@@ -10,11 +10,11 @@ module "wafv2" {
   environment               = "DEV"
   functionality             = "WAFv2"
   enabled                   = true
-  name_prefix               = "reinevent"
+  name_prefix               = "reinvent"
   description               = "WAFv2 to protect internet facing endpoints"
 
   visibility_config = {
-    metric_name                = "reinevent-takeaway"
+    metric_name                = "reinvent-takeaway"
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
   }
@@ -28,7 +28,7 @@ module "wafv2" {
 
       visibility_config = {
         cloudwatch_metrics_enabled = true
-        metric_name                = "reinevent-takeaway"
+        metric_name                = "reinvent-takeaway"
         sampled_requests_enabled   = true
       }
 
