@@ -8,8 +8,8 @@ on:
       - staging
 
 env:
-  TERRAFORM_VERSION: 1.1.5
-  TERRAGRUNT_VERSION: 0.36.2
+  TERRAFORM_VERSION: 1.3.5
+  TERRAGRUNT_VERSION: 0.40.0
   TERRAFORM_WORKING_DIR: './applied/accounts/reinvent-takeaway/environment/'
 
 permissions:

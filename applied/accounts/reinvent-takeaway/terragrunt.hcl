@@ -1,4 +1,4 @@
-terragrunt_version_constraint = "~> 0.36.2"
+terragrunt_version_constraint = "~> 0.40.0"
 
 remote_state {
   backend = "s3"
@@ -24,7 +24,7 @@ terraform {
       version = "~> 4.30.0" # ~> 4.30.0 , ">=3.0.0, < 5.0.0"
     }
   }
-  required_version = "~> 1.1.3" # ~> 1.2.9 , ~> 1.1.3"
+  required_version = "~> 1.3.5" # ~> 1.2.9 , ~> 1.1.3"
 }
 EOF
 }
