@@ -28,7 +28,3 @@ terraform {
 }
 EOF
 }
-
-terraform {
-  backend "s3" {}
-}
