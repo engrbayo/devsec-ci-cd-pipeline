@@ -1,5 +1,5 @@
 module "wafv2" {
-  source = "../../modules/wafv2"
+  source = "../../../modules/wafv2"
 
   web_acl_name              = "reinvent-takeaway-wafv2"
   scope                     = "REGIONAL"
