@@ -112,7 +112,3 @@ variable "environment" {
 variable "functionality" {
   type = string
 }
-
-terraform {
-  backend "s3" {}
-}
