@@ -12,7 +12,3 @@ output "web_acl_id" {
   description = "The ID of the WAFv2 WebACL."
   value       = aws_wafv2_web_acl.waf_web_acl.*.id
 }
-
-terraform {
-  backend "s3" {}
-}
