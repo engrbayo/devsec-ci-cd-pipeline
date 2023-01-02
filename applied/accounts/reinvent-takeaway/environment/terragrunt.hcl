@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../..//infrastructure/region"
+  source = "../../../..//infrastructure/region/waf"
 }
 
 
