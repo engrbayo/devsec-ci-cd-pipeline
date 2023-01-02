@@ -21,7 +21,7 @@ module "wafv2" {
 
   rules = [
     {
-      name     = "reinevent-takeaway"
+      name     = "reinevent-takeaway-block"
       priority = "1"
 
       action = "block"
