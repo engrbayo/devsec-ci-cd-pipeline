@@ -55,14 +55,6 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: step-security/wait-for-secrets@v1
-        id: wait-for-secret
-        with:
-         secrets: |
-          MFA_TOKEN:
-            name: 'MFA token'
-            description: 'MFA authentication is required for dev environment access'
-
       - name: Terragrunt Init
         id: init
         run: terragrunt run-all init -no-color --terragrunt-non-interactive
