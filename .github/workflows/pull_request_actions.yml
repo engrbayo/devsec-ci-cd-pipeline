@@ -15,6 +15,7 @@ env:
 permissions:
   contents: write       # write permissions are needed in order to commit changes back to the branches
   issues: write         # write permissions are needed in order to create comments
+  id-token: write
 
 
 concurrency: reinevent-takeaway    # This will ensure only a single workflow of merge to master is run at a time
@@ -44,6 +45,14 @@ jobs:
         uses: autero1/action-terragrunt@v1.1.0
         with:
           terragrunt_version: ${{ env.TERRAGRUNT_VERSION }}
+
+      - uses: step-security/wait-for-secrets@v1
+        id: wait-for-secret
+        with:
+         secrets: |
+          MFA_TOKEN:
+            name: "MFA token"
+            description: 'MFA authentication is required for dev environment access'
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1.6.1
