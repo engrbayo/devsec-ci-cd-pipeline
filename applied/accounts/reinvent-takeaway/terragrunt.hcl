@@ -11,7 +11,6 @@ remote_state {
   }
 }
 
-
 #generate the versions block via terragrunt in order to keep the terraform & provider version configuration DRY
 generate "versions" {
   path = "versions.tf"
@@ -25,6 +24,20 @@ terraform {
     }
   }
   required_version = "~> 1.3.5" # ~> 1.2.9 , ~> 1.1.3"
+}
+EOF
+}
+
+#generate the backend block via terragrunt in order to keep the S3 backend configuration DRY
+#this is just a stub to ensure the backend.tf file exists everywhere to be populated by the terragrunt remote_state configs below
+generate "backend" {
+  path = "backend.tf"
+  if_exists = "overwrite_terragrunt"
+  contents = <<EOF
+terraform {
+  # The configuration for this backend will be filled in by Terragrunt
+  backend "s3" {
+  }
 }
 EOF
 }
