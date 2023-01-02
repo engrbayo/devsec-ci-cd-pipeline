@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../..//modules/tf-code"
+  source = "../../../..//modules/wafv2"
 }
 
 
