@@ -1,0 +1,34 @@
+name: 'KICS (Keeping Infrastructure as Code Secure) Code Analysis'
+on:
+  workflow_call:
+    inputs:
+      ENABLE_COMMENTS:
+        required: true
+        type: boolean
+      WORKING_DIRECTORY:
+        required: true
+        type: string
+jobs:
+  # Kics performs static code analysis of Infrastructure of Code (Terraform).
+  # More details can be found here https://docs.kics.io/latest/
+  kics:
+    name: Run KICS Code Analysis
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Run KICS Scan
+      uses: checkmarx/kics-github-action@v1.6
+      with:
+        path: ${{ inputs.WORKING_DIRECTORY }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        output_path: myResults/
+        ignore_on_exit: results
+        enable_comments: ${{ inputs.ENABLE_COMMENTS }}
+
+    - name: Display KICS results
+      run: |
+        cat myResults/results.json
