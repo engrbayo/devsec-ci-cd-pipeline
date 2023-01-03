@@ -21,8 +21,19 @@ permissions:
 concurrency: reinevent-takeaway    # This will ensure only a single workflow of merge to master is run at a time
 
 jobs:
+  kics:
+    # Kics performs static code analysis of Infrastructure of Code (Terraform).
+    # More details can be found here: https://docs.kics.io/latest/
+    name: "Run Kics scan on Terraform code"
+    uses: ./.github/workflows/terraform_kics.yml
+    with:
+      # Enabling Comments will add a comment to a PR, but these do no exist in Push events and will throw an error.
+      ENABLE_COMMENTS: true
+      WORKING_DIRECTORY: 'infrastructure/region/waf'
+
   plan:
-    name: "Terragrunt Plan"
+    name: "Terragrunt Init,Validate and Plan"
+    needs: [ kics ]
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-20.04
     defaults:
