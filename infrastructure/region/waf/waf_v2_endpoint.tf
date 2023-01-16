@@ -5,11 +5,11 @@ module "wafv2" {
   scope                     = "REGIONAL"
   association_resource_arns = ["arn:aws:elasticloadbalancing:us-east-1:721933253214:loadbalancer/app/oludare-nginx-test/239525d3d0e914d6"]
   allow_default_action      = true
-  create_alb_association    = true
+  create_alb_association    = false
   application               = "load-balancer"
   environment               = "DEV"
   functionality             = "WAFv2"
-  enabled                   = true
+  enabled                   = false
   name_prefix               = "reinvent"
   description               = "WAFv2 to protect internet facing endpoints"
 
