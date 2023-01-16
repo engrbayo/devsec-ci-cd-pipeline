@@ -33,7 +33,7 @@ jobs:
 
   plan:
     name: "Terragrunt Init,Validate and Plan"
-    #needs: [ kics ]
+    needs: [ kics ]
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-20.04
     defaults:
