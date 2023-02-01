@@ -1,3 +1,8 @@
+#If the age of the key is greater than 90 days, the code checks if the username of the user is a valid email address.
+#If the username is a valid email address, the code sends an email to the user using Amazon SES (Simple Email Service) with detailed instructions on how to rotate their IAM access key.
+#this code monitors IAM users' access keys and sends an email to users with instructions on how to rotate their keys if the keys are older than 90 days and the username is an email address.
+
+
 from datetime import datetime, timedelta
 import boto3
 
