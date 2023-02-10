@@ -1,5 +1,6 @@
 name: Plan and Merge to main branch
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
