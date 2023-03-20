@@ -21,7 +21,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Run KICS Scan
-      uses: checkmarx/kics-github-action@v1.6
+      uses: checkmarx/kics-github-action@v1.6.3
       with:
         path: ${{ inputs.WORKING_DIRECTORY }}
         token: ${{ secrets.GITHUB_TOKEN }}
