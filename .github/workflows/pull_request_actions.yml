@@ -1,4 +1,4 @@
-name: Plan and deploy to main branch
+name: Plan and test to main branch
 on:
   workflow_dispatch:
   push:
